@@ -48,7 +48,7 @@ public class MyApplication extends Application {
             @Override
             public void onServiceReady() {
                 beaconManager.startMonitoring(new BeaconRegion("monitored region",
-                        UUID.fromString("D0D3FA86-CA76-45EC-9BD9-6AF4B3625F21"), null, null));
+                        UUID.fromString("D0D3FA86-CA76-45EC-9BD9-6AF4C2A616B3"), null, null));
             }
         });
     }

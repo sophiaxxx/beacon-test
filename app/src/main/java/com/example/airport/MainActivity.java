@@ -1,10 +1,13 @@
 package com.example.airport;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
@@ -52,11 +55,17 @@ public class MainActivity extends AppCompatActivity {
 
     private BeaconManager beaconManager;
     private BeaconRegion region;
+    private TextView txtName;
+    private ImageView imgStatus;
+    private int staytimes;
+
+    // TODO: 若有兩位使用者的情況還未測試調整
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeControls();
 
         beaconManager = new BeaconManager(this);
         beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
@@ -66,14 +75,37 @@ public class MainActivity extends AppCompatActivity {
                 if (!beacons.isEmpty()) {
                     Beacon nearestBeacon = beacons.get(0);
                     List<String> places = placesNearBeacon(nearestBeacon);
-                    // TODO: update the UI here
-                    Log.d("Airport", "Nearest places: " + places);
+
+                    // TODO: UI here
+                    txtName.setText("beacon is close");
+                    int ImgChange = getResources().getIdentifier("com.example.airport:@mipmap/like", null, null);
+                    imgStatus.setImageResource(ImgChange);
+                    Log.d("Airport", "Nearest places: " + nearestBeacon.getProximityUUID().toString());
+                    //停留時間累計超過
+                    staytimes += 1;
+                    if(staytimes > 30){
+                        //請求登入臉書或是顯示商店廣告畫面
+                    }
+
+                }
+                else
+                {
+                    txtName.setText("no beacon");
+                    int ImgOrignal = getResources().getIdentifier("com.example.airport:@mipmap/search", null, null);
+                    imgStatus.setImageResource(ImgOrignal);
+                    staytimes = 0;
                 }
 
             }
         });
 
-        region = new BeaconRegion("ranged region", UUID.fromString("D0D3FA86-CA76-45EC-9BD9-6AF4B3625F21"), null, null);
+        region = new BeaconRegion("ranged region", UUID.fromString("D0D3FA86-CA76-45EC-9BD9-6AF4C2A616B3"), null, null);
+    }
+
+    private void initializeControls(){
+        txtName = (TextView)findViewById(R.id.beaconStatus);
+        imgStatus = (ImageView)findViewById(R.id.img_beaconStatus);
+
     }
 
     @Override
