@@ -78,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // TODO: UI here
                     txtName.setText("beacon is close");
-                    int ImgChange = getResources().getIdentifier("com.example.airport:@mipmap/like", null, null);
-                    imgStatus.setImageResource(ImgChange);
+                    imgStatus.setImageResource(R.mipmap.placeholder);
                     Log.d("Airport", "Nearest places: " + nearestBeacon.getProximityUUID().toString());
                     //停留時間累計超過
                     staytimes += 1;
@@ -91,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     txtName.setText("no beacon");
-                    int ImgOrignal = getResources().getIdentifier("com.example.airport:@mipmap/search", null, null);
-                    imgStatus.setImageResource(ImgOrignal);
+                    imgStatus.setImageResource(R.mipmap.search);
                     staytimes = 0;
                 }
 
